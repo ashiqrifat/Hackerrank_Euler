@@ -1,0 +1,28 @@
+open System
+
+let nthFibonacchiFinder n = [1L..n]
+                            |> List.fold (fun (a , b) _ -> b, a+b) (0L, 1L)
+                            |> fst
+
+let rec sumOfFibonacciGeneratorTillLimit n limit sum = 
+
+    let nthFibonacchi = bigint (nthFibonacchiFinder n)
+
+    match nthFibonacchi with
+    | nthFibonacchi when (nthFibonacchi <= limit) -> sumOfFibonacciGeneratorTillLimit (n + 3L) limit (sum + nthFibonacchi)
+    | _ -> sum
+
+[<EntryPoint>]
+let main argv =     
+
+    //let EvenfibonacciSequence = Seq.initInfinite (fun index -> nthFibonacchiFinder(((int64 index)*3L)-1L))
+    //printfn "%d" (nthFibonacchiFinder 82L)
+    let noOfTestCases = Console.ReadLine() |> int
+    
+    let testCaseList = [1..noOfTestCases]
+                       |> List.map (fun i -> Console.ReadLine() |> int64) //take input for the test casess
+                       |> List.map (fun i -> sumOfFibonacciGeneratorTillLimit 0L (bigint i) (bigint 0))
+                       |> List.iter (fun i -> printfn "%d" (int64 i))
+    
+    Console.ReadKey() |> ignore
+    0
